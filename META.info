@@ -1,0 +1,8 @@
+{
+    "name" : "Linenoise",
+    "version" : "0.1.0",
+    "description" : "Bindings to linenoise",
+    "author" : "Rob Hoelz",
+    "depends" : [],
+    "source-url" : "git://github.com/hoelzro/p6-linenoise.git"
+}
