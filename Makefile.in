@@ -1,0 +1,7 @@
+all: %DESTDIR%/liblinenoise%SO%
+
+%DESTDIR%/liblinenoise%SO%: linenoise/linenoise%O%
+	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%%DESTDIR%/liblinenoise%SO% linenoise/linenoise%O%
+
+linenoise/linenoise%O%: linenoise/linenoise.c
+	%CC% -c %CCSHARED% %CCFLAGS% %CCOUT%linenoise%O% linenoise/linenoise.c
