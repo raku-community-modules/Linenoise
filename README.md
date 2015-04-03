@@ -57,7 +57,7 @@ linenoiseSetCompletionCallback(-> $line, $c {
     }
 });
 
-while (my $line = linenoies '> ').defined {
+while (my $line = linenoise '> ').defined {
     say "got a line: $line";
 }
 ```

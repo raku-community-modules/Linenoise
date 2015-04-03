@@ -127,7 +127,7 @@ This module provides bindings to linenoise
         }
     });
 
-    while (my $line = linenoies '> ').defined {
+    while (my $line = linenoise '> ').defined {
         say "got a line: $line";
     }
 
