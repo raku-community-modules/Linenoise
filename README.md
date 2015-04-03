@@ -1,6 +1,22 @@
-# Perl 6 Linenoise
+# NAME
 
-Linenoise (https://github.com/antirez/linenoise) bindings for Perl 6.
+Linenoise
 
-**NOTE**: MoarVM current bundles linenoise as a VM-level operation; this is part of
-an experiment to decouple it from the VM.
+# AUTHOR
+
+Rob Hoelz <rob AT hoelz.ro>
+
+# SYNOPSIS
+
+```perl6
+    use Linenoise;
+
+    while (my $line = linenoise '> ').defined {
+        say "got a line: $line";
+    }
+```
+
+# DESCRIPTION
+
+This module provides bindings to linenoise
+(https://github.com/antirez/linenoise) for Perl 6 via NativeCall.
