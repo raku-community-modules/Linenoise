@@ -94,4 +94,41 @@ Rob Hoelz <rob AT hoelz.ro>
 This module provides bindings to linenoise
 (L<https://github.com/antirez/linenoise>) for Perl 6 via NativeCall.
 
+=head1 EXAMPLES
+
+=head2 Basic History
+
+    use Linenoise;
+
+    my constant HIST_FILE = '.myhist';
+    my constant HIST_LEN  = 10;
+
+    linenoiseHistoryLoad(HIST_FILE);
+    linenoiseHistorySetMaxLen(HIST_LEN);
+
+    while (my $line = linenoise '> ').defined {
+        linenoiseHistoryAdd($line);
+        say "got a line: $line";
+    }
+
+    linenoiseHistorySave(HIST_FILE);
+
+=head2 Tab Completion
+
+    use Linenoise;
+
+    my @commands = <help quit list get set>;
+
+    linenoiseSetCompletionCallback(-> $line, $c {
+        my ( $prefix, $last-word ) = find-last-word($line);
+
+        for @commands.grep(/^ "$last-word" /).sort -> $cmd {
+            linenoiseHistoryAdd($c, $prefix ~ $cmd);
+        }
+    });
+
+    while (my $line = linenoies '> ').defined {
+        say "got a line: $line";
+    }
+
 =end pod
