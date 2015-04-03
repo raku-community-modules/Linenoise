@@ -70,3 +70,28 @@ module Linenoise {
         return linenoise_raw($prompt);
     }
 }
+
+=begin pod
+
+=head1 NAME
+
+Linenoise
+
+=head1 AUTHOR
+
+Rob Hoelz <rob AT hoelz.ro>
+
+=head1 SYNOPSIS
+
+    use Linenoise;
+
+    while (my $line = linenoise '> ').defined {
+        say "got a line: $line";
+    }
+
+=head1 DESCRIPTION
+
+This module provides bindings to linenoise
+(L<https://github.com/antirez/linenoise>) for Perl 6 via NativeCall.
+
+=end pod
