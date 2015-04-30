@@ -13,13 +13,14 @@ module Linenoise {
     my constant O_NONBLOCK   = 0x800;
 
     my sub fcntl(Int $fd, Int $cmd, Int $arg) returns Int is native(Str) { * }
+    my sub free(Pointer $p) is native { * }
 
     #| Completions objects are opaque data structures provided by linenoise
     #| that contain the current list of completions for the completions
     #| request.  See L<#linenoiseAddCompletion> for more details.
     our class Completions is repr('CPointer') {}
 
-    my sub linenoise_raw(Str $prompt) returns Str is native('liblinenoise.so') is symbol('linenoise') { * }
+    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native('liblinenoise.so') is symbol('linenoise') { * }
 
     #| Adds an entry to the current history list.  C<$line> must be C<.defined>!
     our sub linenoiseHistoryAdd(Str $line) is native('liblinenoise.so') is export { * }
@@ -67,7 +68,15 @@ module Linenoise {
 
         fcntl(STDIN_FILENO, F_SETFL, $flags +& +^O_NONBLOCK);
 
-        return linenoise_raw($prompt);
+        my $p = linenoise_raw($prompt);
+
+        if $p {
+            my $line = $p.deref;
+            free($p);
+            $line;
+        } else {
+            Str
+        }
     }
 }
 
