@@ -20,35 +20,35 @@ module Linenoise {
     #| request.  See L<#linenoiseAddCompletion> for more details.
     our class Completions is repr('CPointer') {}
 
-    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native('liblinenoise.so') is symbol('linenoise') { * }
+    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native('liblinenoise') is symbol('linenoise') { * }
 
     #| Adds an entry to the current history list.  C<$line> must be C<.defined>!
-    our sub linenoiseHistoryAdd(Str $line) is native('liblinenoise.so') is export { * }
+    our sub linenoiseHistoryAdd(Str $line) is native('liblinenoise') is export { * }
 
     #| Sets the maximum length of the history list.  Entries at the front of this list will be
     #| evicted.
-    our sub linenoiseHistorySetMaxLen(int $len) returns int is native('liblinenoise.so') is export { * }
+    our sub linenoiseHistorySetMaxLen(int $len) returns int is native('liblinenoise') is export { * }
 
     #| Saves the current history list to a file.
-    our sub linenoiseHistorySave(Str $filename) returns int is native('liblinenoise.so') is export { * }
+    our sub linenoiseHistorySave(Str $filename) returns int is native('liblinenoise') is export { * }
 
     #| Loads a file and populates the history list from its contents.
-    our sub linenoiseHistoryLoad(Str $filename) returns int is native('liblinenoise.so') is export { * }
+    our sub linenoiseHistoryLoad(Str $filename) returns int is native('liblinenoise') is export { * }
 
     #| Clears the screen.
-    our sub linenoiseClearScreen() is native('liblinenoise.so') is export { * }
+    our sub linenoiseClearScreen() is native('liblinenoise') is export { * }
 
     #| Enables/disables multi line history mode.
-    our sub linenoiseSetMultiLine(int $ml) is native('liblinenoise.so') is export { * }
+    our sub linenoiseSetMultiLine(int $ml) is native('liblinenoise') is export { * }
 
     #| Puts linenoise into key code printing mode (used for debugging).
-    our sub linenoisePrintKeyCodes() is native('liblinenoise.so') is export { * }
+    our sub linenoisePrintKeyCodes() is native('liblinenoise') is export { * }
 
     #| Sets up a completion callback, invoked when the user presses tab.  The
     #| callback gets the current line, and a completions object.  See
     #| L<#linenoiseAddCompletion> to see how to add completions from within
     #| a callback.
-    our sub linenoiseSetCompletionCallback(&callback (Str, Completions)) is native('liblinenoise.so') is export { * }
+    our sub linenoiseSetCompletionCallback(&callback (Str, Completions)) is native('liblinenoise') is export { * }
 
     #| Adds a completion to the current set of completions.  The first
     #| parameter is the completions object (which is passed into the callback),
@@ -56,7 +56,7 @@ module Linenoise {
     #| Completions are offered in the order in which they are provided to this
     #| function, so keep that in mind if you want your users to have a sorted
     #| list of completions.
-    our sub linenoiseAddCompletion(Completions $completions, Str $completion) is native('liblinenoise.so') is export { * }
+    our sub linenoiseAddCompletion(Completions $completions, Str $completion) is native('liblinenoise') is export { * }
 
     #| Prompts the user for a line of input after displaying L<$prompt>, and
     #| returns that line.  During this operation, standard input is set to
