@@ -1,12 +1,12 @@
-# NAME
+# Name
 
 Linenoise
 
-# AUTHOR
+# Author
 
 Rob Hoelz <rob AT hoelz.ro>
 
-# SYNOPSIS
+# Synopsis
 
 ```perl6
 use Linenoise;
@@ -16,12 +16,11 @@ while (my $line = linenoise '> ').defined {
 }
 ```
 
-# DESCRIPTION
+# Description
 
-This module provides bindings to linenoise
-(https://github.com/antirez/linenoise) for Perl 6 via NativeCall.
+This module provides bindings to linenoise ([https://github.com/antirez/linenoise](https://github.com/antirez/linenoise)) for Perl 6 via NativeCall.
 
-# EXAMPLES
+# Examples
 
 ## Basic History
 
@@ -53,7 +52,7 @@ linenoiseSetCompletionCallback(-> $line, $c {
     my ( $prefix, $last-word ) = find-last-word($line);
 
     for @commands.grep(/^ "$last-word" /).sort -> $cmd {
-        linenoiseHistoryAdd($c, $prefix ~ $cmd);
+        linenoiseAddCompletion($c, $prefix ~ $cmd);
     }
 });
 
