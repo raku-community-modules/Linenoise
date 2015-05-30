@@ -132,7 +132,7 @@ This module provides bindings to linenoise
         my ( $prefix, $last-word ) = find-last-word($line);
 
         for @commands.grep(/^ "$last-word" /).sort -> $cmd {
-            linenoiseHistoryAdd($c, $prefix ~ $cmd);
+            linenoiseAddCompletion($c, $prefix ~ $cmd);
         }
     });
 
