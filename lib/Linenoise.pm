@@ -64,9 +64,17 @@ module Linenoise {
     our sub linenoise(Str $prompt) returns Str is export {
         my $flags = fcntl(STDIN_FILENO, F_GETFL, 0);
 
-        LEAVE fcntl(STDIN_FILENO, F_SETFL, $flags);
+        if $flags == -1 {
+            fail "fcntl(\$*IN, F_GETFL, 0) failed";
+        }
 
-        fcntl(STDIN_FILENO, F_SETFL, $flags +& +^O_NONBLOCK);
+        KEEP fcntl(STDIN_FILENO, F_SETFL, $flags);
+
+        my $status = fcntl(STDIN_FILENO, F_SETFL, $flags +& +^O_NONBLOCK);
+
+        if $status == -1 {
+            fail "fcntl(\$*IN, F_SETFL, ~O_NONBLOCK) failed";
+        }
 
         my $p = linenoise_raw($prompt);
 
