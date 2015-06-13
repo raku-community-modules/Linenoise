@@ -1,7 +1,13 @@
-all: %DESTDIR%/liblinenoise%SO%
+all: %DESTDIR%/liblinenoise%SO% lib/Linenoise.pm
 
 %DESTDIR%/liblinenoise%SO%: linenoise%O%
 	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%%DESTDIR%/liblinenoise%SO% linenoise%O%
 
 linenoise%O%: linenoise.c
 	%CC% -c %CCSHARED% %CCFLAGS% %CCOUT%linenoise%O% linenoise.c
+
+constant-helper: constant-helper.c
+	%CC% %CCOUT%constant-helper %CCFLAGS% constant-helper.c
+
+lib/Linenoise.pm: lib/Linenoise.pm.in constant-helper
+	perl6 fill-constants.pl < lib/Linenoise.pm.in > lib/Linenoise.pm
