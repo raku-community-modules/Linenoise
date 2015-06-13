@@ -8,9 +8,9 @@ use NativeCall;
 module Linenoise {
     # XXX these belong in separate modules, and are probably Linux-specific
     my constant STDIN_FILENO = 0;
-    my constant F_GETFL      = 0x03;
-    my constant F_SETFL      = 0x04;
-    my constant O_NONBLOCK   = 0x800;
+    my constant F_GETFL      = #`(FILL-ME-IN);
+    my constant F_SETFL      = #`(FILL-ME-IN);
+    my constant O_NONBLOCK   = #`(FILL-ME-IN);
 
     my sub fcntl(Int $fd, Int $cmd, Int $arg) returns Int is native(Str) { * }
     my sub free(Pointer $p) is native { * }
