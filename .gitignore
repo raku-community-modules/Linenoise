@@ -1,3 +1,5 @@
 /blib
 /Makefile
 /linenoise.o
+/lib/Linenoise.pm
+/constant-helper
