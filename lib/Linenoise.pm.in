@@ -6,7 +6,6 @@ use NativeCall;
 #| (L<https://github.com/antirez/linenoise>) for Perl 6
 #| via NativeCall.
 module Linenoise {
-    # XXX these belong in separate modules, and are probably Linux-specific
     my constant STDIN_FILENO = 0;
     my constant F_GETFL      = #`(FILL-ME-IN);
     my constant F_SETFL      = #`(FILL-ME-IN);
