@@ -1,0 +1,9 @@
+language: perl6
+install:
+  - rakudobrew build-panda
+before_script:
+  - panda installdeps .
+  - panda-build
+
+script:
+  - PERL6LIB=blib/lib perl6 -MLinenoise -e 1
