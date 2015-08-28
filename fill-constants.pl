@@ -10,7 +10,7 @@ sub get-constants(@lines) {
 }
 
 sub MAIN {
-    my %constants = get-constants(run('./constant-helper', :out).out.lines());
+    my %constants = get-constants(run('./constant-helper', :out).out.lines()).flat;
 
     for lines() -> $line {
         my $new-line = $line;
