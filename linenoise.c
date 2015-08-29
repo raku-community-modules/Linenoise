@@ -1001,7 +1001,7 @@ static void linenoiseEditBackspace(struct linenoiseState *l) {
     }
 }
 
-/* Delete the previosu word, maintaining the cursor at the start of the
+/* Delete the previous word, maintaining the cursor at the start of the
  * current word. */
 static void linenoiseEditDeletePrevWord(struct linenoiseState *l) {
     size_t old_pos = l->pos;
@@ -1014,6 +1014,23 @@ static void linenoiseEditDeletePrevWord(struct linenoiseState *l) {
     diff = old_pos - l->pos;
     memmove(l->buf+l->pos,l->buf+old_pos,l->len-old_pos+1);
     l->len -= diff;
+    refreshLine(l);
+}
+
+static void linenoiseEditMovePrevWord(struct linenoiseState *l) {
+    while (l->pos > 0) {
+        l->pos--;
+        if (l->buf[l->pos] != ' ' && l->buf[l->pos-1] == ' ') break;
+    }
+    refreshLine(l);
+}
+
+static void linenoiseEditMoveNextWord(struct linenoiseState *l) {
+    while (l->pos < l->len) {
+        l->pos++;
+        if (l->buf[l->pos] == ' ' && l->buf[l->pos-1] != ' ') break;
+    }
+
     refreshLine(l);
 }
 
@@ -1163,9 +1180,20 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
              * chars at different times. */
 #ifdef _WIN32
             if (win32read(seq,1) == -1) break;
-            if (win32read(seq+1,1) == -1) break;
 #else
             if (read(l.ifd,seq,1) == -1) break;
+#endif
+            /* Single-byte escape sequences, like mod+b and mod+f */
+            if (seq[0] == 'b') {
+                linenoiseEditMovePrevWord(&l);
+                break;
+            } else if (seq[0] == 'f') {
+                linenoiseEditMoveNextWord(&l);
+                break;
+            }
+#ifdef _WIN32
+            if (win32read(seq+1,1) == -1) break;
+#else
             if (read(l.ifd,seq+1,1) == -1) break;
 #endif
             /* ESC [ sequences. */
