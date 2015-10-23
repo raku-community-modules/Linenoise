@@ -1017,6 +1017,19 @@ static void linenoiseEditDeletePrevWord(struct linenoiseState *l) {
     refreshLine(l);
 }
 
+static void linenoiseEditDeleteNextWord(struct linenoiseState *l) {
+    size_t old_pos = l->pos;
+
+    while (l->pos < l->len && l->buf[l->pos] == ' ')
+        l->pos++;
+    while (l->pos < l->len && l->buf[l->pos] != ' ')
+        l->pos++;
+    memmove(l->buf + old_pos, l->buf + l->pos, l->len - l->pos);
+    l->len -= l->pos - old_pos;
+    l->pos = old_pos;
+    refreshLine(l);
+}
+
 static void linenoiseEditMovePrevWord(struct linenoiseState *l) {
     while (l->pos > 0) {
         l->pos--;
@@ -1189,6 +1202,9 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
                 break;
             } else if (seq[0] == 'f') {
                 linenoiseEditMoveNextWord(&l);
+                break;
+            } else if (seq[0] == 'd') {
+                linenoiseEditDeleteNextWord(&l);
                 break;
             }
 #ifdef _WIN32
