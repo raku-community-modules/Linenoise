@@ -11,8 +11,16 @@ module Linenoise {
     my constant F_SETFL      = #`(FILL-ME-IN);
     my constant O_NONBLOCK   = #`(FILL-ME-IN);
 
+    my sub native-stdlib returns Str {
+        if $*DISTRO.is-win {
+            'msvcrt.dll'
+        } else {
+            Str
+        }
+    }
+
     my sub fcntl(Int $fd, Int $cmd, Int $arg) returns Int is native(Str) { * }
-    my sub free(Pointer $p) is native { * }
+    my sub free(Pointer $p) is native(&native-stdlib) { * }
 
     #| Completions objects are opaque data structures provided by linenoise
     #| that contain the current list of completions for the completions
