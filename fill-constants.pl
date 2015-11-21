@@ -5,7 +5,7 @@ use v6;
 sub get-constants(@lines) {
     gather for @lines -> $definition {
         my ( $key, $value ) = $definition.split('=');
-        take $key, $value;
+        take $key, val($value);
     }
 }
 
@@ -15,7 +15,13 @@ sub MAIN {
     for lines() -> $line {
         my $new-line = $line;
         if $line ~~ /my \s+ constant \s+ $<ident>=[\w+] \s* '=' \s* $<value>=['#`(FILL-ME-IN)']/ {
-            $new-line.substr-rw($<value>.from, $<value>.chars) = '0x%x'.sprintf(%constants{~$<ident>});
+            my $ident = ~$<ident>;
+
+            if %constants{$ident} ~~ Str {
+                $new-line.substr-rw($<value>.from, $<value>.chars) = %constants{$ident};
+            } else {
+                $new-line.substr-rw($<value>.from, $<value>.chars) = '0x%x'.sprintf(%constants{$ident});
+            }
         }
         say $new-line;
     }

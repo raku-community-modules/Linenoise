@@ -10,6 +10,7 @@ module Linenoise {
     my constant F_GETFL      = #`(FILL-ME-IN);
     my constant F_SETFL      = #`(FILL-ME-IN);
     my constant O_NONBLOCK   = #`(FILL-ME-IN);
+    my constant CLIB         = #`(FILL-ME-IN);
 
     my sub native-stdlib returns Str {
         if $*DISTRO.is-win {
