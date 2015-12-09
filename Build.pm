@@ -8,9 +8,16 @@ class Build is Panda::Builder {
         mkdir("$workdir/blib");
         mkdir("$workdir/blib/lib");
         my %vars = get-vars("$workdir/blib/lib");
-        %vars<PREFIX> = $*VM.config<prefix>;
+        my @shared-object-extensions = <.so .dll .dylib>.grep(* ne %vars<SO>);
+
+        %vars<FAKESO> = @shared-object-extensions.map('resources/lib/liblinenoise' ~ *);
+
+        my $fake-so-rules = @shared-object-extensions.map({
+            "resources/lib/liblinenoise$_:\n\tperl6 -e \"say ''\" > resources/lib/liblinenoise$_"
+        }).join("\n");
 
         process-makefile($workdir, %vars);
+        spurt("$workdir/Makefile", $fake-so-rules, :append);
         shell(%vars<MAKE>);
     }
 }
