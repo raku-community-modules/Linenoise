@@ -20,7 +20,7 @@ module Linenoise {
             my @so-files = @so-extensions.map('lib/liblinenoise' ~ *);
 
             ( $lib, ) = @so-files.grep: { %?RESOURCES{$^filename} ~~ :!z };
-            $lib .= Str;
+            $lib = %?RESOURCES{$lib}.Str;
         }
 
         $lib
