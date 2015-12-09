@@ -7,5 +7,10 @@
     "source-url" : "git://github.com/hoelzro/p6-linenoise.git",
     "provides": {
         "Linenoise": "lib/Linenoise.pm"
-    }
+    },
+    "resources": [
+        "lib/liblinenoise.so",
+        "lib/liblinenoise.dll",
+        "lib/liblinenoise.dylib"
+    ]
 }
