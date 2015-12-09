@@ -3,3 +3,5 @@
 /linenoise.o
 /lib/Linenoise.pm
 /constant-helper
+/resources/
+.precomp
