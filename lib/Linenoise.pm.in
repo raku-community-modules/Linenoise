@@ -19,7 +19,16 @@ module Linenoise {
             my @so-extensions = <.dll .dylib .so>;
             my @so-files = @so-extensions.map('lib/liblinenoise' ~ *);
 
-            ( $lib, ) = @so-files.grep: { %?RESOURCES{$^filename} ~~ :!z };
+            my @non-empty-so-files = @so-files.grep: { %?RESOURCES{$^filename} ~~ :!z };
+
+            if @non-empty-so-files == 0 {
+                die "Couldn't find a shared object for liblinenoise in Linenoise resources";
+            } elsif @non-empty-so-files > 1 {
+                die "Found more than one shared object for liblinenoise in Linenoise resources";
+            }
+
+            $lib = @non-empty-so-files[0];
+
             $lib = %?RESOURCES{$lib}.Str;
         }
 
