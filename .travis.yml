@@ -6,4 +6,4 @@ before_script:
   - panda-build
 
 script:
-  - PERL6LIB=blib/lib perl6 -MLinenoise -e 1
+  - PERL6LIB=lib perl6 -MLinenoise -e 1
