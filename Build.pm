@@ -13,7 +13,7 @@ class Build is Panda::Builder {
         %vars<FAKESO> = @shared-object-extensions.map('resources/lib/liblinenoise' ~ *);
 
         my $fake-so-rules = @shared-object-extensions.map({
-            "resources/lib/liblinenoise$_:\n\tperl6 -e \"say ''\" > resources/lib/liblinenoise$_"
+            "resources/lib/liblinenoise$_:\n\tperl6 -e \"print ''\" > resources/lib/liblinenoise$_"
         }).join("\n");
 
         process-makefile($workdir, %vars);
