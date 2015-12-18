@@ -16,7 +16,7 @@ module Linenoise {
         state $lib;
 
         unless $lib {
-            my @so-extensions = <.so .dll .dylib>;
+            my @so-extensions = <.dll .dylib .so>;
             my @so-files = @so-extensions.map('lib/liblinenoise' ~ *);
 
             ( $lib, ) = @so-files.grep: { %?RESOURCES{$^filename} ~~ :!z };
