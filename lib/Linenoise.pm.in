@@ -5,7 +5,7 @@ use NativeCall;
 #| This module provides bindings to linenoise
 #| (L<https://github.com/antirez/linenoise>) for Perl 6
 #| via NativeCall.
-module Linenoise {
+module Linenoise:ver<0.1.0>:auth<github:hoelzro> {
     my constant STDIN_FILENO = 0;
     my constant F_GETFL      = #`(FILL-ME-IN);
     my constant F_SETFL      = #`(FILL-ME-IN);
