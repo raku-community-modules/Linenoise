@@ -2,8 +2,6 @@ use v6;
 
 use NativeCall;
 
-no precompilation;
-
 #| This module provides bindings to linenoise
 #| (L<https://github.com/antirez/linenoise>) for Perl 6
 #| via NativeCall.
