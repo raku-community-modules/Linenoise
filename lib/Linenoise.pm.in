@@ -35,7 +35,7 @@ module Linenoise:ver<0.1.0>:auth<github:hoelzro> {
         $lib
     }
 
-    my sub fcntl(Int $fd, Int $cmd, Int $arg) returns Int is native(Str) { * }
+    my sub fcntl(int32 $fd, int32 $cmd, int32 $arg) returns int32 is native(Str) { * }
     my sub free(Pointer $p) is native(CLIB) { * }
 
     #| Completions objects are opaque data structures provided by linenoise
@@ -50,19 +50,19 @@ module Linenoise:ver<0.1.0>:auth<github:hoelzro> {
 
     #| Sets the maximum length of the history list.  Entries at the front of this list will be
     #| evicted.
-    our sub linenoiseHistorySetMaxLen(int $len) returns int is native(&liblinenoise) is export { * }
+    our sub linenoiseHistorySetMaxLen(int32 $len) returns int32 is native(&liblinenoise) is export { * }
 
     #| Saves the current history list to a file.
-    our sub linenoiseHistorySave(Str $filename) returns int is native(&liblinenoise) is export { * }
+    our sub linenoiseHistorySave(Str $filename) returns int32 is native(&liblinenoise) is export { * }
 
     #| Loads a file and populates the history list from its contents.
-    our sub linenoiseHistoryLoad(Str $filename) returns int is native(&liblinenoise) is export { * }
+    our sub linenoiseHistoryLoad(Str $filename) returns int32 is native(&liblinenoise) is export { * }
 
     #| Clears the screen.
     our sub linenoiseClearScreen() is native(&liblinenoise) is export { * }
 
     #| Enables/disables multi line history mode.
-    our sub linenoiseSetMultiLine(int $ml) is native(&liblinenoise) is export { * }
+    our sub linenoiseSetMultiLine(int32 $ml) is native(&liblinenoise) is export { * }
 
     #| Puts linenoise into key code printing mode (used for debugging).
     our sub linenoisePrintKeyCodes() is native(&liblinenoise) is export { * }
