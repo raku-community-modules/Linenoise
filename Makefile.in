@@ -2,7 +2,7 @@ all: resources/lib/liblinenoise%SO% %FAKESO% lib/Linenoise.pm
 
 resources/lib/liblinenoise%SO%: linenoise%O%
 	perl6 -e "mkdir 'resources'; mkdir 'resources/lib'"
-	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT% resources/lib/liblinenoise%SO% linenoise%O%
+	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%resources/lib/liblinenoise%SO% linenoise%O%
 
 linenoise%O%: linenoise.c
 	%CC% -c %CCSHARED% %CCFLAGS% %CCOUT%linenoise%O% linenoise.c
