@@ -1,6 +1,7 @@
 use v6;
 
 use NativeCall;
+use Native::Resources;
 
 #| This module provides bindings to linenoise
 #| (L<https://github.com/antirez/linenoise>) for Perl 6
@@ -12,29 +13,6 @@ module Linenoise:ver<0.1.0>:auth<github:hoelzro> {
     my constant O_NONBLOCK   = #`(FILL-ME-IN);
     my constant CLIB         = #`(FILL-ME-IN);
 
-    my sub liblinenoise returns Str {
-        state $lib;
-
-        unless $lib {
-            my @so-extensions = <.dll .dylib .so>;
-            my @so-files = @so-extensions.map('lib/liblinenoise' ~ *);
-
-            my @non-empty-so-files = @so-files.grep: { %?RESOURCES{$^filename} ~~ :!z };
-
-            if @non-empty-so-files == 0 {
-                die "Couldn't find a shared object for liblinenoise in Linenoise resources";
-            } elsif @non-empty-so-files > 1 {
-                die "Found more than one shared object for liblinenoise in Linenoise resources";
-            }
-
-            $lib = @non-empty-so-files[0];
-
-            $lib = %?RESOURCES{$lib}.Str;
-        }
-
-        $lib
-    }
-
     my sub fcntl(int32 $fd, int32 $cmd, int32 $arg) returns int32 is native(Str) { * }
     my sub free(Pointer $p) is native(CLIB) { * }
 
@@ -43,35 +21,35 @@ module Linenoise:ver<0.1.0>:auth<github:hoelzro> {
     #| request.  See L<#linenoiseAddCompletion> for more details.
     our class Completions is repr('CPointer') {}
 
-    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native(&liblinenoise) is symbol('linenoise') { * }
+    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native(resource-lib('linenoise', :%?RESOURCES)) is symbol('linenoise') { * }
 
     #| Adds an entry to the current history list.  C<$line> must be C<.defined>!
-    our sub linenoiseHistoryAdd(Str $line) is native(&liblinenoise) is export { * }
+    our sub linenoiseHistoryAdd(Str $line) is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Sets the maximum length of the history list.  Entries at the front of this list will be
     #| evicted.
-    our sub linenoiseHistorySetMaxLen(int32 $len) returns int32 is native(&liblinenoise) is export { * }
+    our sub linenoiseHistorySetMaxLen(int32 $len) returns int32 is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Saves the current history list to a file.
-    our sub linenoiseHistorySave(Str $filename) returns int32 is native(&liblinenoise) is export { * }
+    our sub linenoiseHistorySave(Str $filename) returns int32 is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Loads a file and populates the history list from its contents.
-    our sub linenoiseHistoryLoad(Str $filename) returns int32 is native(&liblinenoise) is export { * }
+    our sub linenoiseHistoryLoad(Str $filename) returns int32 is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Clears the screen.
-    our sub linenoiseClearScreen() is native(&liblinenoise) is export { * }
+    our sub linenoiseClearScreen() is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Enables/disables multi line history mode.
-    our sub linenoiseSetMultiLine(int32 $ml) is native(&liblinenoise) is export { * }
+    our sub linenoiseSetMultiLine(int32 $ml) is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Puts linenoise into key code printing mode (used for debugging).
-    our sub linenoisePrintKeyCodes() is native(&liblinenoise) is export { * }
+    our sub linenoisePrintKeyCodes() is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Sets up a completion callback, invoked when the user presses tab.  The
     #| callback gets the current line, and a completions object.  See
     #| L<#linenoiseAddCompletion> to see how to add completions from within
     #| a callback.
-    our sub linenoiseSetCompletionCallback(&callback (Str, Completions)) is native(&liblinenoise) is export { * }
+    our sub linenoiseSetCompletionCallback(&callback (Str, Completions)) is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Adds a completion to the current set of completions.  The first
     #| parameter is the completions object (which is passed into the callback),
@@ -79,7 +57,7 @@ module Linenoise:ver<0.1.0>:auth<github:hoelzro> {
     #| Completions are offered in the order in which they are provided to this
     #| function, so keep that in mind if you want your users to have a sorted
     #| list of completions.
-    our sub linenoiseAddCompletion(Completions $completions, Str $completion) is native(&liblinenoise) is export { * }
+    our sub linenoiseAddCompletion(Completions $completions, Str $completion) is native(resource-lib('linenoise', :%?RESOURCES)) is export { * }
 
     #| Prompts the user for a line of input after displaying L<$prompt>, and
     #| returns that line.  During this operation, standard input is set to
