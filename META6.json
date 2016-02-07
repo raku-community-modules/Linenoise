@@ -1,1 +1,16 @@
-META.info
+{
+    "name" : "Linenoise",
+    "version" : "0.1.0",
+    "description" : "Bindings to linenoise",
+    "author" : "Rob Hoelz",
+    "depends" : ["Native::Resources"],
+    "source-url" : "https://github.com/hoelzro/p6-linenoise.git",
+    "provides": {
+        "Linenoise": "lib/Linenoise.pm"
+    },
+    "resources": [
+        "lib/liblinenoise.so",
+        "lib/liblinenoise.dll",
+        "lib/liblinenoise.dylib"
+    ]
+}
