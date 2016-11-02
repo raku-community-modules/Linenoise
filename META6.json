@@ -1,4 +1,5 @@
 {
+    "perl" : "6.*",
     "name" : "Linenoise",
     "version" : "0.1.0",
     "description" : "Bindings to linenoise",
