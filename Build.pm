@@ -1,18 +1,12 @@
 use v6;
-
-use Panda::Builder;
 use LibraryMake;
-use Shell::Command;
 
-class Build is Panda::Builder {
-    method build($workdir) {
-        mkdir("$workdir/blib");
-        mkdir("$workdir/blib/lib");
-        my %vars = get-vars("$workdir/blib/lib");
-
-        %vars<helper> = 'resources/libraries/' ~ $*VM.platform-library-name('liblinenoise'.IO);
-
-        process-makefile($workdir, %vars);
-        shell(%vars<MAKE>);
+class Build {
+    method build($srcdir) {
+        my %vars = get-vars($srcdir);
+        %vars<linenoise> = $*VM.platform-library-name('linenoise'.IO).basename;
+        mkdir "$srcdir/resources/libraries" unless "$srcdir/resources/libraries".IO.e;
+        process-makefile($srcdir, %vars);
+        shell %vars<MAKE>, :cwd($srcdir);
     }
 }

@@ -1,9 +1,8 @@
 language: perl6
 install:
-  - rakudobrew build-panda
+  - rakudobrew build zef
 before_script:
-  - panda installdeps .
-  - panda-build
-
+  - zef --depsonly install .
+  - zef --debug install .
 script:
-  - PERL6LIB=lib perl6 -MLinenoise -e 1
+  - perl6 -MLinenoise -e 1
