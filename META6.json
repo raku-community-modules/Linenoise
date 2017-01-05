@@ -1,13 +1,14 @@
 {
     "perl" : "6.*",
     "name" : "Linenoise",
-    "version" : "0.1.0",
+    "version" : "0.1.1",
     "description" : "Bindings to linenoise",
     "author" : "Rob Hoelz",
-    "depends" : ["LibraryMake", "Shell::Command"],
+    "depends" : [ ],
+    "build-depends" : ["LibraryMake"],
     "source-url" : "https://github.com/hoelzro/p6-linenoise.git",
     "provides": {
-        "Linenoise": "lib/Linenoise.pm"
+        "Linenoise": "lib/Linenoise.pm6"
     },
     "resources": [
         "libraries/linenoise"
