@@ -1,6 +1,7 @@
 {
     "perl" : "6.*",
     "name" : "Linenoise",
+    "license" : "MIT",
     "version" : "0.1.1",
     "description" : "Bindings to linenoise",
     "author" : "Rob Hoelz",
