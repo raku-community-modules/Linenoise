@@ -2,17 +2,23 @@ name = %linenoise%
 
 all: %DESTDIR%/resources/libraries/%linenoise% lib/Linenoise.pm6
 clean:
-	rm %DESTDIR%/resources/libraries/%linenoise%
+	rm %DESTDIR%/resources/libraries/%linenoise% *%O%
 
-%DESTDIR%/resources/libraries/%linenoise%: linenoise%O%
+%DESTDIR%/resources/libraries/%linenoise%: linenoise%O% wcwidth%O% ConvertUTF%O%
 	perl6 -e "mkdir 'resources'; mkdir 'resources/libraries'"
-	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%resources/libraries/%linenoise% linenoise%O%
+	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%resources/libraries/%linenoise% linenoise%O% wcwidth%O% ConvertUTF%O% -lstdc++
 
-linenoise%O%: linenoise.c
-	%CC% -c %CCSHARED% %CCFLAGS% %CCOUT% linenoise%O% linenoise.c
+linenoise%O%: linenoise.cpp
+	%CC% -x c++ -c %CCSHARED% %CCFLAGS% %CCOUT% linenoise%O% linenoise.cpp
+
+wcwidth%O%: wcwidth.cpp
+	%CC% -x c++ -c %CCSHARED% %CCFLAGS% %CCOUT% wcwidth%O% wcwidth.cpp
+
+ConvertUTF%O%: ConvertUTF.cpp ConvertUTF.h
+	%CC% -x c++ -c %CCSHARED% %CCFLAGS% %CCOUT% ConvertUTF%O% ConvertUTF.cpp
 
 constant-helper: constant-helper.c
-	%CC% %CCOUT%constant-helper %CCFLAGS% constant-helper.c
+	%CC% -x c++ %CCOUT%constant-helper %CCFLAGS% constant-helper.c
 
 lib/Linenoise.pm6: lib/Linenoise.pm6.in constant-helper
 	perl6 fill-constants.pl < lib/Linenoise.pm6.in > lib/Linenoise.pm6
