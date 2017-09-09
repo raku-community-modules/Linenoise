@@ -20,6 +20,17 @@ while (my $line = linenoise '> ').defined {
 
 This module provides bindings to linenoise ([https://github.com/antirez/linenoise](https://github.com/antirez/linenoise)) for Perl 6 via NativeCall.
 
+# Installation
+
+You can install via zef:
+
+```
+$ zef install Linenoise
+```
+
+Note that since this module has binary components, you'll need a working C compiler.  Everything you need can be found under the `build-essential` package
+on Debian-based Linux distributions, such as Ubuntu.
+
 # Examples
 
 ## Basic History
