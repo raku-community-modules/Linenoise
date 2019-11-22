@@ -24,7 +24,7 @@ sub MAIN {
             }
         }
         elsif $line.contains('#`(FILL-THIS)') {
-            $new-line = $new-line.subst('#`(FILL-THIS)',$*DISTRO.is-win ?? ("'" ~ CompUnit::RepositoryRegistry.repository-for-name("site").Str ~ "'") !! "Str");
+            $new-line = $new-line.subst('#`(FILL-THIS)',$*DISTRO.is-win ?? ("'" ~ CompUnit::RepositoryRegistry.repository-for-name("site").Str ~ "'") !! "''");
         }
         say $new-line;
     }
