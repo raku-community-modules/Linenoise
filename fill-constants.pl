@@ -23,6 +23,10 @@ sub MAIN {
                 $new-line.substr-rw($<value>.from, $<value>.chars) = '0x%x'.sprintf(%constants{$ident});
             }
         }
+        elsif $line.contains('#`(FILL-THIS') {
+            $new-line = $new-line.subst('#`(FILL-THIS-1)',$*DISTRO.is-win.Str);
+            $new-line = $new-line.subst('#`(FILL-THIS-2)',$*DISTRO.is-win ?? ("'" ~ CompUnit::RepositoryRegistry.repository-for-name("site").Str ~ "'") !! "''");
+        }
         say $new-line;
     }
 }
