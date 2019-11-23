@@ -16,4 +16,3 @@ constant-helper: constant-helper.c
 
 lib/Linenoise.pm6: lib/Linenoise.pm6.in constant-helper
 	perl6 fill-constants.pl < lib/Linenoise.pm6.in > lib/Linenoise.pm6
-	cat lib/Linenoise.pm6
