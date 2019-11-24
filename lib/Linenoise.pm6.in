@@ -12,17 +12,7 @@ module Linenoise:ver<0.1.1>:auth<github:hoelzro> {
     my constant O_NONBLOCK   = #`(FILL-ME-IN);
     my constant CLIB         = #`(FILL-ME-IN);
 
-    my constant LIBLINENOISE = do if #`(FILL-THIS-1) {
-        my Str $site-path=#`(FILL-THIS-2);
-        my Str $target-line;
-        for ($site-path ~ '/dist/' ~ %?RESOURCES.dist-id.Str).IO.lines {
-            if .match('resources/libraries/linenoise') {
-                $target-line=$_;
-                last;
-            }
-        }
-        $site-path ~ '/resources/' ~ $target-line.substr($target-line.index('": "')+4).substr(0,*-1)
-    } else { %?RESOURCES<libraries/linenoise>.Str };
+    my constant LIBLINENOISE = %?RESOURCES<libraries/linenoise>.Str;
 
     my sub fcntl(int32 $fd, int32 $cmd, int32 $arg) returns int32 is native(Str) { * }
     my sub free(Pointer $p) is native(CLIB) { * }
