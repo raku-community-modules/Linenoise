@@ -14,22 +14,18 @@ module Linenoise:ver<0.1.1>:auth<github:hoelzro> {
     my sub f_setfl_helper    (--> int32) is native($LIBCONSTANT_HELPER) { * }
     my sub o_nonblock_helper (--> int32) is native($LIBCONSTANT_HELPER) { * }
     my sub _msc_ver_helper   (--> int32) is native($LIBCONSTANT_HELPER) { * }
-    my sub CLIB {
-        return !$*DISTRO.is-win
-            ?? Str
-            !! do {
-                my $msc_ver = _msc_ver_helper();
-                if $msc_ver && ($msc_ver < 1000 || $msc_ver >= 1300) {
-                    sprintf("msvcr%d.dll", $msc_ver == 800 ?? 10 !! ($msc_ver / 10) - 60);
-                }
-                else {
-                    "msvcrt.dll";
-                }
-            }
+    my sub MSCLIB {
+        my $msc_ver = _msc_ver_helper();
+        if $msc_ver && ($msc_ver < 1000 || $msc_ver >= 1300) {
+            sprintf("msvcr%d.dll", $msc_ver == 800 ?? 10 !! ($msc_ver / 10) - 60);
+        }
+        else {
+            "msvcrt.dll";
+        }
     }
 
     my sub fcntl(int32 $fd, int32 $cmd, int32 $arg) returns int32 is native(Str) { * }
-    my sub free(Pointer $p) is native(&CLIB) { * }
+    my sub free(Pointer $p) is native($*DISTRO.is-win ?? &MSCLIB !! Str) { * }
 
     #| Completions objects are opaque data structures provided by linenoise
     #| that contain the current list of completions for the completions
