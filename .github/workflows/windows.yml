@@ -13,6 +13,7 @@ jobs:
           cinst rakudostar
           $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
           refreshenv
-          ($Env:Path).Split(";") | Get-ChildItem -filter cc
-          ($Env:Path).Split(";") | Get-ChildItem -filter make
+          get-command cc.exe
+          get-command gcc.exe
+          get-command make.exe
           zef build . --verbose
