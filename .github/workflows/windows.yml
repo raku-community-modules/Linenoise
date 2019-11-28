@@ -10,7 +10,7 @@ jobs:
 
       - name: Build
         run: |
-          if not exist "C:\rakudo" cinst rakudostar
-          SET PATH=C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;%PATH%
+          cinst rakudostar
+          $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
           refreshenv
           perl6 -v
