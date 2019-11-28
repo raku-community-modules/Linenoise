@@ -17,6 +17,5 @@ jobs:
           gcc -o constant-helper.exe -Werror=declaration-after-statement -Werror=pointer-arith -O3 -DNDEBUG  -D_REENTRANT -D_FILE_OFFSET_BITS=64 -fPIC constant-helper.c
           perl6 -e "mkdir IO::Path.new('resources/libraries')"
           gcc -shared -o resources/libraries/linenoise.dll linenoise.obj
-          copy linenoise.dll resources/libraries
           Get-Content lib/Linenoise.pm6.in | perl6 fill-constants.pl > lib/Linenoise.pm6
           zef test . --verbose
