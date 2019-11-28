@@ -6,6 +6,7 @@ class Build {
         my %vars = get-vars($srcdir);
         %vars<linenoise> = $*VM.platform-library-name('linenoise'.IO).basename;
         mkdir "$srcdir/resources/libraries" unless "$srcdir/resources/libraries".IO.e;
+        say "Processing makefile in $srcdir with %vars";
         process-makefile($srcdir, %vars);
         shell %vars<MAKE>, :cwd($srcdir);
     }
