@@ -11,6 +11,7 @@ jobs:
       - name: Build
         run: |
           cinst rakudostar
+          cinst mingw
           $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
           refreshenv
           get-command cc.exe
