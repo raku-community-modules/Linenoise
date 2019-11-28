@@ -12,6 +12,7 @@
         "Linenoise": "lib/Linenoise.pm6"
     },
     "resources": [
-        "libraries/linenoise"
+        "libraries/linenoise",
+        "libraries/constant_helper"
     ]
 }

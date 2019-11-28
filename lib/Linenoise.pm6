@@ -6,51 +6,65 @@ use NativeCall;
 #| (L<https://github.com/antirez/linenoise>) for Perl 6
 #| via NativeCall.
 module Linenoise:ver<0.1.1>:auth<github:hoelzro> {
+    my constant $LIBLINENOISE       = %?RESOURCES<libraries/linenoise>;
+    my constant $LIBCONSTANT_HELPER = %?RESOURCES<libraries/constant_helper>;
     my constant STDIN_FILENO = 0;
-    my constant F_GETFL      = #`(FILL-ME-IN);
-    my constant F_SETFL      = #`(FILL-ME-IN);
-    my constant O_NONBLOCK   = #`(FILL-ME-IN);
-    my constant CLIB         = #`(FILL-ME-IN);
 
-    my constant LIBLINENOISE = %?RESOURCES<libraries/linenoise>.Str;
+    my sub f_getfl_helper    (--> int32) is native($LIBCONSTANT_HELPER) { * }
+    my sub f_setfl_helper    (--> int32) is native($LIBCONSTANT_HELPER) { * }
+    my sub o_nonblock_helper (--> int32) is native($LIBCONSTANT_HELPER) { * }
+    my sub _msc_ver_helper   (--> int32) is native($LIBCONSTANT_HELPER) { * }
+    my sub CLIB {
+        return !$*DISTRO.is-win
+            ?? Str
+            !! do {
+                my $msc_ver = _msc_ver_helper();
+                if $msc_ver && ($msc_ver < 1000 || $msc_ver >= 1300) {
+                    sprintf("msvcr%d.dll", $msc_ver == 800 ?? 10 !! ($msc_ver / 10) - 60);
+                }
+                else {
+                    "msvcrt.dll";
+                }
+            }
+    }
 
     my sub fcntl(int32 $fd, int32 $cmd, int32 $arg) returns int32 is native(Str) { * }
-    my sub free(Pointer $p) is native(CLIB) { * }
+    my sub free(Pointer $p) is native(&CLIB) { * }
 
     #| Completions objects are opaque data structures provided by linenoise
     #| that contain the current list of completions for the completions
     #| request.  See L<#linenoiseAddCompletion> for more details.
     our class Completions is repr('CPointer') {}
 
-    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native(LIBLINENOISE) is symbol('linenoise') { * }
+    my sub linenoise_raw(Str $prompt) returns Pointer[Str] is native($LIBLINENOISE) is symbol('linenoise') { * }
 
     #| Adds an entry to the current history list.  C<$line> must be C<.defined>!
-    our sub linenoiseHistoryAdd(Str $line) is native(LIBLINENOISE) is export { * }
+    our sub linenoiseHistoryAdd(Str $line) is native($LIBLINENOISE) is export { * }
 
     #| Sets the maximum length of the history list.  Entries at the front of this list will be
     #| evicted.
-    our sub linenoiseHistorySetMaxLen(int32 $len) returns int32 is native(LIBLINENOISE) is export { * }
+    our sub linenoiseHistorySetMaxLen(int32 $len) returns int32 is native($LIBLINENOISE) is export { * }
 
     #| Saves the current history list to a file.
-    our sub linenoiseHistorySave(Str $filename) returns int32 is native(LIBLINENOISE) is export { * }
+    our sub linenoiseHistorySave(Str $filename) returns int32 is native($LIBLINENOISE) is export { * }
 
     #| Loads a file and populates the history list from its contents.
-    our sub linenoiseHistoryLoad(Str $filename) returns int32 is native(LIBLINENOISE) is export { * }
+    our sub linenoiseHistoryLoad(Str $filename) returns int32 is native($LIBLINENOISE) is export { * }
 
     #| Clears the screen.
-    our sub linenoiseClearScreen() is native(LIBLINENOISE) is export { * }
+    our sub linenoiseClearScreen() is native($LIBLINENOISE) is export { * }
 
     #| Enables/disables multi line history mode.
-    our sub linenoiseSetMultiLine(int32 $ml) is native(LIBLINENOISE) is export { * }
+    our sub linenoiseSetMultiLine(int32 $ml) is native($LIBLINENOISE) is export { * }
 
     #| Puts linenoise into key code printing mode (used for debugging).
-    our sub linenoisePrintKeyCodes() is native(LIBLINENOISE) is export { * }
+    our sub linenoisePrintKeyCodes() is native($LIBLINENOISE) is export { * }
 
     #| Sets up a completion callback, invoked when the user presses tab.  The
     #| callback gets the current line, and a completions object.  See
     #| L<#linenoiseAddCompletion> to see how to add completions from within
     #| a callback.
-    our sub linenoiseSetCompletionCallback(&callback (Str, Completions)) is native(LIBLINENOISE) is export { * }
+    our sub linenoiseSetCompletionCallback(&callback (Str, Completions)) is native($LIBLINENOISE) is export { * }
 
     #| Adds a completion to the current set of completions.  The first
     #| parameter is the completions object (which is passed into the callback),
@@ -58,22 +72,22 @@ module Linenoise:ver<0.1.1>:auth<github:hoelzro> {
     #| Completions are offered in the order in which they are provided to this
     #| function, so keep that in mind if you want your users to have a sorted
     #| list of completions.
-    our sub linenoiseAddCompletion(Completions $completions, Str $completion) is native(LIBLINENOISE) is export { * }
+    our sub linenoiseAddCompletion(Completions $completions, Str $completion) is native($LIBLINENOISE) is export { * }
 
     #| Prompts the user for a line of input after displaying L<$prompt>, and
     #| returns that line.  During this operation, standard input is set to
     #| blocking, and line editing functions provided by linenoise are available.
     our sub linenoise(Str $prompt) returns Str is export {
         unless $*DISTRO.is-win {
-            my $flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+            my $flags = fcntl(STDIN_FILENO, f_getfl_helper(), 0);
 
             if $flags == -1 {
                 fail "fcntl(\$*IN, F_GETFL, 0) failed";
             }
 
-            KEEP fcntl(STDIN_FILENO, F_SETFL, $flags);
+            KEEP fcntl(STDIN_FILENO, f_setfl_helper(), $flags);
 
-            my $status = fcntl(STDIN_FILENO, F_SETFL, $flags +& +^O_NONBLOCK);
+            my $status = fcntl(STDIN_FILENO, f_setfl_helper(), $flags +& +^ o_nonblock_helper());
 
             if $status == -1 {
                 fail "fcntl(\$*IN, F_SETFL, ~O_NONBLOCK) failed";

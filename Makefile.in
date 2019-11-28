@@ -1,18 +1,12 @@
-name = %linenoise%
+CC = %CC%
 
-all: %DESTDIR%/resources/libraries/%linenoise% lib/Linenoise.pm6
+all: %linenoise% %constant_helper% lib/Linenoise.pm6
 clean:
-	rm %DESTDIR%/resources/libraries/%linenoise%
+	rm %linenoise%
+	rm %constant_helper%
 
-%DESTDIR%/resources/libraries/%linenoise%: linenoise%O%
-	perl6 -e "mkdir 'resources'; mkdir 'resources/libraries'"
-	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%resources/libraries/%linenoise% linenoise%O%
+%constant_helper%: constant_helper.c
+	$(CC) -Wall constant_helper.c -shared -o "%constant_helper%" -fPIC -g
 
-linenoise%O%: linenoise.c
-	%CC% -c %CCSHARED% %CCFLAGS% %CCOUT% linenoise%O% linenoise.c
-
-constant-helper: constant-helper.c
-	%CC% %CCOUT%constant-helper %CCFLAGS% constant-helper.c
-
-lib/Linenoise.pm6: lib/Linenoise.pm6.in constant-helper
-	perl6 fill-constants.pl < lib/Linenoise.pm6.in > lib/Linenoise.pm6
+%linenoise%: linenoise.c
+	$(CC) -Wall linenoise.c -shared -o "%linenoise%" -fPIC -g
