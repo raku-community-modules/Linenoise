@@ -11,10 +11,8 @@ jobs:
       - name: Build
         run: |
           cinst rakudostar
-          cinst mingw
           $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
           refreshenv
-          get-command cc.exe
           get-command gcc.exe
           get-command make.exe
           zef build . --verbose
