@@ -9,7 +9,7 @@ clean:
 	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%resources/libraries/%linenoise% linenoise%O%
 
 linenoise%O%: linenoise.c
-	%CC% -c %CCSHARED% %CCFLAGS% %CCOUT% linenoise%O% linenoise.c
+	%CC% -I/usr/include/linux -c %CCSHARED% %CCFLAGS% %CCOUT% linenoise%O% linenoise.c
 
 constant-helper: constant-helper.c
 	%CC% %CCOUT%constant-helper %CCFLAGS% constant-helper.c
