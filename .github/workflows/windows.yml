@@ -12,7 +12,4 @@ jobs:
         run: |
           cinst rakudostar
           $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
-          refreshenv
-          perl6 -v
-          zef --verbose install .
-          exit 0
+          zef --verbose build .
