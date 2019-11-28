@@ -5,5 +5,5 @@ install:
   - docker pull jjmerelo/test-perl6
   - docker images
 
-script: docker run -t -v  $TRAVIS_BUILD_DIR:/test --entrypoint="/bin/sh" jjmerelo/test-perl6 -c "apk add --update --no-cache make && zef build . && zef test ."
+script: docker run -t -v  $TRAVIS_BUILD_DIR:/test --entrypoint="/bin/sh" jjmerelo/test-perl6 -c "apk add --update --no-cache make gcc && zef build . && zef test ."
 
