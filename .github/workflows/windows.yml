@@ -15,4 +15,4 @@ jobs:
           refreshenv
           gcc -c -fPIC -Werror=declaration-after-statement -Werror=pointer-arith -O3 -DNDEBUG  -D_REENTRANT -D_FILE_OFFSET_BITS=64 -fPIC -o  linenoise.dll linenoise.c
           gcc -o constant-helper.exe -Werror=declaration-after-statement -Werror=pointer-arith -O3 -DNDEBUG  -D_REENTRANT -D_FILE_OFFSET_BITS=64 -fPIC constant-helper.c
-          perl6 fill-constants.pl < lib/Linenoise.pm6.in > lib/Linenoise.pm6
+          Get-Content lib/Linenoise.pm6.in | perl6 fill-constants.pl > lib/Linenoise.pm6
