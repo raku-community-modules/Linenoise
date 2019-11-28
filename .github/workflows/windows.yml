@@ -14,5 +14,5 @@ jobs:
           $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
           refreshenv
           perl6 -v
-          zef build . --verbose
+          zef --verbose install .
           exit 0
