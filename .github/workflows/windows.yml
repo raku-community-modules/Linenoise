@@ -13,6 +13,6 @@ jobs:
           cinst rakudostar
           $env:Path = "C:\rakudo\bin;C:\rakudo\share\perl6\site\bin;$env:Path"
           refreshenv
-          get-command gcc.exe
-          get-command make.exe
-          zef build . --verbose
+          gcc -c -fPIC -Werror=declaration-after-statement -Werror=pointer-arith -O3 -DNDEBUG  -D_REENTRANT -D_FILE_OFFSET_BITS=64 -fPIC -o  linenoise.dll linenoise.c
+          gcc -o constant-helper.exe -Werror=declaration-after-statement -Werror=pointer-arith -O3 -DNDEBUG  -D_REENTRANT -D_FILE_OFFSET_BITS=64 -fPIC constant-helper.c
+          perl6 fill-constants.pl < lib/Linenoise.pm6.in > lib/Linenoise.pm6
