@@ -18,7 +18,7 @@ while (my $line = linenoise '> ').defined {
 
 # Description
 
-This module provides bindings to linenoise ([https://github.com/antirez/linenoise](https://github.com/antirez/linenoise)) for Perl 6 via NativeCall.
+This module provides bindings to linenoise ([https://github.com/antirez/linenoise](https://github.com/antirez/linenoise)) for Raku via NativeCall.
 
 # Installation
 
@@ -35,7 +35,7 @@ on Debian-based Linux distributions, such as Ubuntu.
 
 ## Basic History
 
-```perl6
+```raku
 use Linenoise;
 
 my constant HIST_FILE = '.myhist';
@@ -54,7 +54,7 @@ linenoiseHistorySave(HIST_FILE);
 
 ## Tab Completion
 
-```perl6
+```raku
 use Linenoise;
 
 my @commands = <help quit list get set>;
