@@ -7,7 +7,7 @@
     "author" : "Rob Hoelz",
     "depends" : [ ],
     "build-depends" : ["LibraryMake"],
-    "source-url" : "https://github.com/raku-community-modules/raku-linenoise.git",
+    "source-url" : "https://github.com/raku-community-modules/Linenoise.git",
     "provides": {
         "Linenoise": "lib/Linenoise.pm6"
     },
