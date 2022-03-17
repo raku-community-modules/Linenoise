@@ -1,18 +1,25 @@
 {
-    "auth" : "zef:raku-community-modules",
-    "perl" : "6.*",
-    "name" : "Linenoise",
-    "license" : "MIT",
-    "version" : "0.1.2",
-    "description" : "Raku bindings to linenoise",
-    "author" : "Rob Hoelz",
-    "depends" : [ ],
-    "build-depends" : ["LibraryMake"],
-    "source-url" : "https://github.com/raku-community-modules/Linenoise.git",
-    "provides": {
-        "Linenoise": "lib/Linenoise.rakumod"
-    },
-    "resources": [
-        "libraries/linenoise"
-    ]
+  "auth": "zef:raku-community-modules",
+  "author": "Rob Hoelz",
+  "build-depends": [
+    "LibraryMake"
+  ],
+  "depends": [
+  ],
+  "description": "Raku bindings to linenoise",
+  "license": "MIT",
+  "name": "Linenoise",
+  "perl": "6.*",
+  "provides": {
+    "Linenoise": "lib/Linenoise.rakumod"
+  },
+  "resources": [
+    "libraries/linenoise"
+  ],
+  "source-url": "https://github.com/raku-community-modules/Linenoise.git",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "0.1.2"
 }

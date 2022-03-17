@@ -1,18 +1,16 @@
-use v6;
-
 use NativeCall;
 
 #| This module provides bindings to linenoise
-#| (L<https://github.com/antirez/linenoise>) for Perl 6
+#| (L<https://github.com/antirez/linenoise>) for Raku
 #| via NativeCall.
-module Linenoise:ver<0.1.1>:auth<github:hoelzro> {
+module Linenoise:ver<0.1.2>:auth<zef:raku-community-modules> {
     my constant STDIN_FILENO = 0;
     my constant F_GETFL      = #`(FILL-ME-IN);
     my constant F_SETFL      = #`(FILL-ME-IN);
     my constant O_NONBLOCK   = #`(FILL-ME-IN);
     my constant CLIB         = #`(FILL-ME-IN);
 
-    my constant LIBLINENOISE = %?RESOURCES<libraries/linenoise>.Str;
+    my constant LIBLINENOISE = %?RESOURCES<libraries/linenoise>;
 
     my sub fcntl(int32 $fd, int32 $cmd, int32 $arg) returns int32 is native(Str) { * }
     my sub free(Pointer $p) is native(CLIB) { * }
@@ -98,58 +96,83 @@ module Linenoise:ver<0.1.1>:auth<github:hoelzro> {
 
 Linenoise
 
-=head1 AUTHOR
-
-Rob Hoelz <rob AT hoelz.ro>
-
 =head1 SYNOPSIS
 
-    use Linenoise;
+=begin code :lang<raku>
 
-    while (my $line = linenoise '> ').defined {
-        say "got a line: $line";
-    }
+use Linenoise;
+
+while (my $line = linenoise '> ').defined {
+    say "got a line: $line";
+}
+
+=end code
 
 =head1 DESCRIPTION
 
 This module provides bindings to linenoise
-(L<https://github.com/antirez/linenoise>) for Perl 6 via NativeCall.
+(L<https://github.com/antirez/linenoise>) for Raku via NativeCall.
 
 =head1 EXAMPLES
 
 =head2 Basic History
 
-    use Linenoise;
+=begin code :lang<raku>
 
-    my constant HIST_FILE = '.myhist';
-    my constant HIST_LEN  = 10;
+use Linenoise;
 
-    linenoiseHistoryLoad(HIST_FILE);
-    linenoiseHistorySetMaxLen(HIST_LEN);
+my constant HIST_FILE = '.myhist';
+my constant HIST_LEN  = 10;
 
-    while (my $line = linenoise '> ').defined {
-        linenoiseHistoryAdd($line);
-        say "got a line: $line";
-    }
+linenoiseHistoryLoad(HIST_FILE);
+linenoiseHistorySetMaxLen(HIST_LEN);
 
-    linenoiseHistorySave(HIST_FILE);
+while (my $line = linenoise '> ').defined {
+    linenoiseHistoryAdd($line);
+    say "got a line: $line";
+}
+
+linenoiseHistorySave(HIST_FILE);
+
+=end code
 
 =head2 Tab Completion
 
-    use Linenoise;
+=begin code :lang<raku>
 
-    my @commands = <help quit list get set>;
+use Linenoise;
 
-    linenoiseSetCompletionCallback(-> $line, $c {
-        my ( $prefix, $last-word ) = find-last-word($line);
+my @commands = <help quit list get set>;
 
-        for @commands.grep(/^ "$last-word" /).sort -> $cmd {
-            linenoiseAddCompletion($c, $prefix ~ $cmd);
-        }
-    });
+linenoiseSetCompletionCallback(-> $line, $c {
+    my ( $prefix, $last-word ) = find-last-word($line);
 
-    while (my $line = linenoise '> ').defined {
-        say "got a line: $line";
+    for @commands.grep(/^ "$last-word" /).sort -> $cmd {
+        linenoiseAddCompletion($c, $prefix ~ $cmd);
     }
+});
+
+while (my $line = linenoise '> ').defined {
+    say "got a line: $line";
+}
+
+=end code
+
+=head1 AUTHOR
+
+Rob Hoelz <rob AT hoelz.ro>
+
+Source can be located at: https://github.com/raku-community-modules/Linenoise .
+Comments and Pull Requests are welcome.
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2015 - 2017 Rob Hoelz
+
+Copyright 2018 - 2022 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the MIT license.
 
 =end pod
+
+# vim: expandtab shiftwidth=4
