@@ -1,15 +1,16 @@
 {
+    "auth" : "zef:raku-community-modules",
     "perl" : "6.*",
     "name" : "Linenoise",
     "license" : "MIT",
-    "version" : "0.1.1",
-    "description" : "Bindings to linenoise",
+    "version" : "0.1.2",
+    "description" : "Raku bindings to linenoise",
     "author" : "Rob Hoelz",
     "depends" : [ ],
     "build-depends" : ["LibraryMake"],
     "source-url" : "https://github.com/raku-community-modules/Linenoise.git",
     "provides": {
-        "Linenoise": "lib/Linenoise.pm6"
+        "Linenoise": "lib/Linenoise.rakumod"
     },
     "resources": [
         "libraries/linenoise"

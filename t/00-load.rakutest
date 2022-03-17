@@ -1,0 +1,7 @@
+use Test;
+
+plan 1;
+
+use-ok "Linenoise", "Can use module";
+
+# vim: expandtab shiftwidth=4

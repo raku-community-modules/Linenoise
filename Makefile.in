@@ -1,11 +1,11 @@
 name = %linenoise%
 
-all: %DESTDIR%/resources/libraries/%linenoise% lib/Linenoise.pm6
+all: %DESTDIR%/resources/libraries/%linenoise% lib/Linenoise.rakumod
 clean:
 	rm %DESTDIR%/resources/libraries/%linenoise%
 
 %DESTDIR%/resources/libraries/%linenoise%: linenoise%O%
-	perl6 -e "mkdir 'resources'; mkdir 'resources/libraries'"
+	raku -e "mkdir 'resources/libraries'"
 	%LD% %LDSHARED% %LDFLAGS% %LIBS% %LDOUT%resources/libraries/%linenoise% linenoise%O%
 
 linenoise%O%: linenoise.c
@@ -15,5 +15,5 @@ linenoise%O%: linenoise.c
 constant-helper: constant-helper.c
 	%CC% %CCOUT%constant-helper %CCFLAGS% constant-helper.c
 
-lib/Linenoise.pm6: lib/Linenoise.pm6.in constant-helper
-	perl6 fill-constants.pl < lib/Linenoise.pm6.in > lib/Linenoise.pm6
+lib/Linenoise.rakumod: lib/Linenoise.rakumod.in constant-helper
+	raku fill-constants.pl < lib/Linenoise.rakumod.in > lib/Linenoise.rakumod

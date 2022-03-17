@@ -1,3 +1,7 @@
+[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/test/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
+[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/macos/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
+[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/windows/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
+
 # Name
 
 Linenoise
@@ -8,7 +12,7 @@ Rob Hoelz <rob AT hoelz.ro>
 
 # Synopsis
 
-```perl6
+```raku
 use Linenoise;
 
 while (my $line = linenoise '> ').defined {
@@ -71,3 +75,12 @@ while (my $line = linenoise '> ').defined {
     say "got a line: $line";
 }
 ```
+
+COPYRIGHT AND LICENSE
+=====================
+
+Copyright 2015 - 2017 Rob Hoelz
+
+Copyright 2018 - 2022 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the MIT license.
