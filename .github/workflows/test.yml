@@ -29,4 +29,4 @@ jobs:
       - name: Install App::Prove6
         run: zef install --/test App::Prove6
       - name: Run Tests
-        run: zef test .
+        run: zef build . && zef test .

@@ -4,4 +4,5 @@
 /resources/
 .precomp
 /lib/.precomp
+/lib/Linenoise.rakumod
 *~
