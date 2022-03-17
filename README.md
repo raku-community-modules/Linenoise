@@ -1,6 +1,6 @@
 [![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/test/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
-[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/MacOS test/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
-[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/Windows test/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
+[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/MacOS%20test/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
+[![Actions Status](https://github.com/raku-community-modules/Linenoise/workflows/Windows%20test/badge.svg)](https://github.com/raku-community-modules/Linenoise/actions)
 
 # Name
 
